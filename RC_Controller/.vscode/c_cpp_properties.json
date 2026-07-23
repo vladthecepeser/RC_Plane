@@ -8,8 +8,13 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "C:/PlatformIO_Projects/RC/RC_Controller/include",
-                "C:/PlatformIO_Projects/RC/RC_Controller/src",
+                "C:/PlatformIO_Projects/RC_Plane/RC_Controller/include",
+                "C:/PlatformIO_Projects/RC_Plane/RC_Controller/src",
+                "C:/PlatformIO_Projects/RC_Plane/RC_Controller/.pio/libdeps/esp32dev/RF24",
+                "C:/PlatformIO_Projects/RC_Plane/RC_Controller/.pio/libdeps/esp32dev/RF24/utility",
+                "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
+                "C:/PlatformIO_Projects/RC_Plane/RC_Controller/.pio/libdeps/esp32dev/LiquidCrystal_I2C",
+                "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -228,7 +233,6 @@
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/RainMaker/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SD/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SD_MMC/src",
-                "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SimpleBLE/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/Ticker/src",
@@ -238,14 +242,18 @@
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "C:/PlatformIO_Projects/RC/RC_Controller/include",
-                    "C:/PlatformIO_Projects/RC/RC_Controller/src",
+                    "C:/PlatformIO_Projects/RC_Plane/RC_Controller/include",
+                    "C:/PlatformIO_Projects/RC_Plane/RC_Controller/src",
+                    "C:/PlatformIO_Projects/RC_Plane/RC_Controller/.pio/libdeps/esp32dev/RF24",
+                    "C:/PlatformIO_Projects/RC_Plane/RC_Controller/.pio/libdeps/esp32dev/RF24/utility",
+                    "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
+                    "C:/PlatformIO_Projects/RC_Plane/RC_Controller/.pio/libdeps/esp32dev/LiquidCrystal_I2C",
+                    "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -464,7 +472,6 @@
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/RainMaker/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SD/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SD_MMC/src",
-                    "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/SimpleBLE/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/Ticker/src",
@@ -474,7 +481,6 @@
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                    "C:/Users/gligo/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     ""
                 ]
             },
