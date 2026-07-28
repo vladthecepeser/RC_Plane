@@ -51,8 +51,6 @@
 // const uint64_t pipeAddress = 0xF0F0F0F0D2LL;
 // const uint8_t maxRetries = 5; // maximum number of retries for sending data
 // const uint8_t payloadSize = sizeof(Packet);
- 
-// SPIClass* hspi = nullptr;
 
 // //LCD Setup Stuff
 // LiquidCrystal_I2C lcd(address, 20, 4); // set LCD (address, columns, rows)
@@ -67,12 +65,12 @@
 //     Serial.println("I2C bus started");
 //     delay(1000);
 
-//     hspi = new SPIClass(HSPI);
-//     hspi->begin(MY_SCLK, MY_MISO, MY_MOSI, MY_SS);
+//     SPIClass *vspi = new SPIClass(VSPI);
+//     vspi->begin(MY_SCLK, MY_MISO, MY_MOSI, MY_SS);
 //     Serial.println("SPI initialized");
 //     delay(1000);
 
-//     if (!radio.begin(hspi)) {
+//     if (!radio.begin(vspi)) {
 //         Serial.println(F("radio hardware not responding!!"));
 //         Serial.println("Continuing without radio");
 //     } else {
