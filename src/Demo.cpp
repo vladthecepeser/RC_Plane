@@ -14,14 +14,6 @@
 //     int LH = 39;
 //     int LV = 36;
 
-//     //NRF24L01+
-//     #define MY_MISO 22
-//     #define MY_MOSI 21
-//     #define MY_SCLK 19
-//     #define MY_SS   18  // pass MY_SS as the csn_pin parameter to the RF24 constructor
-//     #define MY_CE   4
-//     #define MY_IRQ  23
-
 //     //LCD
 //     int SDA1 = 32;
 //     int SCL1 = 33;
@@ -46,12 +38,6 @@
 //     uint8_t leftL;
 // };
 
-// //Radio Setup Stuff
-// RF24 radio(MY_CE, MY_SS); // the (ce_pin, csn_pin) connected to the radio
-// const uint64_t pipeAddress = 0xF0F0F0F0D2LL;
-// const uint8_t maxRetries = 5; // maximum number of retries for sending data
-// const uint8_t payloadSize = sizeof(Packet);
-
 // //LCD Setup Stuff
 // LiquidCrystal_I2C lcd(address, 20, 4); // set LCD (address, columns, rows)
 
@@ -63,22 +49,6 @@
 
 //     Wire.begin(SDA1, SCL1);
 //     Serial.println("I2C bus started");
-//     delay(1000);
-
-//     SPIClass *vspi = new SPIClass(VSPI);
-//     vspi->begin(MY_SCLK, MY_MISO, MY_MOSI, MY_SS);
-//     Serial.println("SPI initialized");
-//     delay(1000);
-
-//     if (!radio.begin(vspi)) {
-//         Serial.println(F("radio hardware not responding!!"));
-//         Serial.println("Continuing without radio");
-//     } else {
-//         radio.setPALevel(RF24_PA_LOW);
-//         radio.setPayloadSize(payloadSize);
-//         radio.stopListening();
-//         Serial.println("Radio initialized");
-//     }
 //     delay(1000);
 
 //     pinMode(RH, INPUT);
@@ -93,14 +63,17 @@
 //         //Initialize the LCD
 //     lcd.init();
 //     lcd.backlight();
-
-//     Serial.println("Setup complete");
+//     lcd.clear();
+    
+//     lcd.setCursor(0, 0);
 //     lcd.print("Controller Ready");
-//     delay(10000);
+//     Serial.println("Setup complete");
+//     delay(3000);
 // }
 
 // bool lcdSentSuccess = false;
 // bool lcdSentFailure = false;
+// int location;
 
 // void loop() {
 //     int rightHorizontal = analogRead(RH);
@@ -123,36 +96,21 @@
 //     // Serial.print(", LL: "); Serial.print(leftL);
 //     // Serial.println();
 
-//     Packet payload;
+//     int locationNew = map(rightHorizontal, 0, 4095, 0, 5);
+//     locationNew = locationNew*4+2;
 
-//     radio.openWritingPipe(pipeAddress);
-//     radio.write(&payload, sizeof(payload));
-
-//     // Attempt to send the payload with retries if needed
-//     bool sent = false;
-//     for (uint8_t attempt = 0; attempt < maxRetries; ++attempt) {
-//         if (radio.write(&payload, sizeof(payload))) {
-//             Serial.println("Transmitted Successfully!");
-//             sent = true;
-//             if (!lcdSentSuccess) {
-//                 lcd.clear();
-//                 lcd.setCursor(3, 0);
-//                 lcd.print("TRANSMITTED SUCCESSFULLY");
-//                 lcdSentSuccess = true;
-//                 lcdSentFailure = false; // Reset failure flag
+//     if (locationNew != location) {
+//         location = locationNew;
+//         lcd.clear();
+//         lcd.setCursor(0, 0);
+//         lcd.print("      Position");
+//         lcd.setCursor(0, 2);
+//         for (int i = 0; i < 20; i++) {
+//             if (i == location) {
+//                 lcd.print("X");
+//             } else {
+//                 lcd.print("-");
 //             }
-//             break;
-//         }
-//     }
-
-//     if (!sent){
-//         Serial.println("Transmission Failed");
-//         if(!lcdSentFailure) {
-//             lcd.setCursor(0, 0);
-//             lcd.clear();
-//             lcd.print("TRANSMISSION FAILED");
-//             lcdSentFailure = true;
-//             lcdSentSuccess = false; // Reset success flag
 //         }
 //     }
 
