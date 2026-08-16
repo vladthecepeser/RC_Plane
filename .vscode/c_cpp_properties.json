@@ -10,6 +10,7 @@
             "includePath": [
                 "C:/PlatformIO_Projects/RC_Plane/include",
                 "C:/PlatformIO_Projects/RC_Plane/src",
+                "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/RadioLib/src",
                 "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/ESP32Servo/src",
                 "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/RF24",
                 "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/RF24/utility",
@@ -250,6 +251,7 @@
                 "path": [
                     "C:/PlatformIO_Projects/RC_Plane/include",
                     "C:/PlatformIO_Projects/RC_Plane/src",
+                    "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/RadioLib/src",
                     "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/ESP32Servo/src",
                     "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/RF24",
                     "C:/PlatformIO_Projects/RC_Plane/.pio/libdeps/esp32dev/RF24/utility",

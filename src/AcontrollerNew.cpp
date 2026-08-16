@@ -2,7 +2,7 @@
 // #include <Wire.h>
 // #include <LiquidCrystal_I2C.h>
 // #include <SPI.h>
-// #include <RF24.h>
+// #include <RadioLib.h>
 // #include <atomic>
  
 
@@ -15,14 +15,16 @@
 //     int LH = 39;
 //     int LV = 36;
 
-//     //NRF24L01+
-//     #define MY_IRQ  23
+//     //SX1280
 //     #define MY_MISO 22
 //     #define MY_MOSI 21
 //     #define MY_SCK 19
 //     #define MY_CSN   18  // pass MY_CSN as the csn_pin parameter to the RF24 constructor
-//     #define MY_CE   4
-    
+//     uint32_t NSS = 23;
+//     uint32_t DIO1 = 5;
+//     uint32_t NRST = 4;
+//     uint32_t BUSYSX1280 = 2;
+
 //     //LCD
 //     int SDA1 = 32;
 //     int SCL1 = 33;
@@ -50,16 +52,18 @@
 // void resetSequence();
 // void resetChip();
 
-// //Radio Setup Stuff
-// RF24 radio(MY_CE, MY_CSN, 1000000); // the (ce_pin, csn_pin) connected to the radio
-// const uint64_t pipeAddress = 0xF0F0F0F0D2LL;
-// const uint8_t payloadSize = sizeof(Packet);
+// SX1280 radio = new Module(NSS, DIO1, NRST, BUSYSX1280);
 // SPIClass *vspi = new SPIClass(VSPI);
 // bool role = true;  // true = TX role, false = RX role
 
+// #if defined(ESP8266) || defined(ESP32)
+//   ICACHE_RAM_ATTR
+// #endif
 
-// //LCD Setup Stuff
+
+// //LCD Setup and Thread
 // LiquidCrystal_I2C lcd(address, 20, 4); // set LCD (address, columns, rows)
+
 // atomic<bool> isTransmitted(false);
 // SemaphoreHandle_t lcdMutex;
 
@@ -91,42 +95,38 @@
 // }
 
 // void setup() {
+//     vspi->begin(MY_SCK, MY_MISO, MY_MOSI, MY_CSN);
+//     pinMode(MY_CSN, OUTPUT);
+
 //     Serial.begin(115200);
-//     delay(100);
 //     Serial.println("ESP32 started");
 
 //     //LCD Setup
 //     Wire.begin(SDA1, SCL1);
 //     Serial.println("I2C bus started");
-//     delay(100);
 
+//     //Setup LCD I2C Thread on Core 1
 //     lcdMutex = xSemaphoreCreateMutex();
 //     xTaskCreatePinnedToCore(vLCD, "LCD_Display", 4096, NULL, 1, NULL, 0);
-
+    
 //     xSemaphoreTake(lcdMutex, portMAX_DELAY);
 //     lcd.init();
 //     lcd.backlight();
 //     xSemaphoreGive(lcdMutex);
 
+//     //New Radio Setup
+//     Serial.print(F("[SX1280] Initializing ... "));
+//     ConfigLoRa_t config;
+//     config.frequency = 2400;
+//     int state = radio.begin(config);
+//     if (state != RADIOLIB_ERR_NONE) {
+//         Serial.print("Init failed, code ");
+//         Serial.println(state);
+//         while (true);
+//     }
 
-//     //Radio Setup
-//     vspi->begin(MY_SCK, MY_MISO, MY_MOSI, MY_CSN);
-//     pinMode(MY_CE, OUTPUT);
-//     pinMode(MY_CSN, OUTPUT);
+//     Serial.println("Transmitter ready");
 
-//     if (!radio.begin(vspi, MY_CE, MY_CSN)) {
-//         xSemaphoreTake(lcdMutex, portMAX_DELAY);
-//         lcd.setCursor(0, 0);
-//         lcd.print("RADIO INIT FAILED");
-//         while (1) {}  // hold in infinite loop
-//         xSemaphoreGive(lcdMutex);
-//     } 
-
-//     //Important Stuff
-//     resetSequence();
-//     Serial.println("Radio initialized");
-
-//     delay(100);
 
 //     pinMode(RH, INPUT);
 //     pinMode(RV, INPUT);
@@ -147,17 +147,7 @@
 //     delay(100);
 // }
 
-// bool lcdSentSuccess = false;
-// bool lcdSentFailure = false;
-
 // void loop() {
-//     // xTaskCreate(vLCD, "LCD_Display", 256, NULL, 1, NULL);
-
-//     // vTaskStartScheduler(); 
-
-
-//     unsigned long currentTime = millis(); 
-
 //     Packet payload;
 //     payload.rightHorizontal = analogRead(RH);
 //     payload.rightVertical = analogRead(RV);
@@ -179,84 +169,22 @@
 //     Serial.print(", LR: "); Serial.print(payload.leftR);
 //     Serial.print(", LL: "); Serial.print(payload.leftL);
 //     Serial.println();
+    
+//     int state = radio.transmit((uint8_t*)&payload, sizeof(payload));
 
-//     // if (radio.write(&payload, sizeof(payload))) {
-//     //     isTransmitted.store(true);
-//     //     Serial.println("Transmitted Successfully!");
-//     //     if (!lcdSentSuccess) {
-//     //         lcd.clear();
-//     //         lcd.setCursor(3, 0);
-//     //         lcd.print("TRANSMITTED SUCCESSFULLY");
-//     //         lcdSentSuccess = true;
-//     //         lcdSentFailure = false; // Reset failure flag
-//     //     }
+//     isTransmitted.store(state == RADIOLIB_ERR_NONE);
+
+//     // if (!radio.isChipConnected()) {
+//     //     resetChip();
 //     // }
-//     // else {
-//     //     isTransmitted.store(false);
-//     //     Serial.println("Transmission Failed");
-//     //     if (!lcdSentFailure) {
-//     //         lcd.clear();
-//     //         lcd.setCursor(0, 0);
-//     //         lcd.print("TRANSMISSION FAILED");
-//     //         lcdSentFailure = true;
-//     //         lcdSentSuccess = false; // Reset success flag
-//     //     }
-//     //     radio.flush_tx();
-//     // }
-
-//     Serial.println("");
-
-//     if (!radio.isChipConnected()) {
-//         resetChip();
-//     }
 
 //     delay(10); // Delay for readability
 // }
 
 // void resetSequence(){
-//     radio.setChannel(76);
-//     radio.setDataRate(RF24_1MBPS);
-//     radio.setCRCLength(RF24_CRC_16);
-//     radio.setRetries(5, 15);
-//     radio.setAutoAck(true);
-//     radio.disableDynamicPayloads();
-//     radio.flush_tx();
-//     radio.flush_rx();
-//     radio.openWritingPipe(pipeAddress);
-//     radio.setPALevel(RF24_PA_MIN);
-//     radio.setPayloadSize(payloadSize);
-//     radio.stopListening();
+
 // }
 
 // void resetChip(){
-//     Serial.println("Resetting radio chip...");
 
-//     //LCD Message
-//     xSemaphoreTake(lcdMutex, portMAX_DELAY);
-//     lcd.clear();
-//     lcd.setCursor(0, 0);
-//     lcd.print("RADIO CHIP ERROR");
-//     lcd.setCursor(0, 3);
-//     lcd.print("RESETTING CHIP...");
-//     xSemaphoreGive(lcdMutex);
-    
-//     radio.powerDown();
-//     delay(500);     //Important!!!
-
-//     if (!radio.begin(vspi, MY_CE, MY_CSN)) {
-//         Serial.println("Radio chip re-initialization failed");
-//         return;
-//     }
-
-//     //Important stuff
-//     resetSequence();
-
-//     if (!radio.isChipConnected()) {
-//         Serial.println("Radio chip re-initialization failed");
-//         resetChip();
-//     } else {
-//         Serial.println("Radio chip re-initialized successfully");
-//     }
-
-//     delay(40);
 // }
