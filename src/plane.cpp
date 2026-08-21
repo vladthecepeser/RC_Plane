@@ -4,6 +4,9 @@
 // #include <ESP32Servo.h>
 // #include <thread>
 // #include <cmath>
+// #include <atomic>
+
+// using namespace std;
 
 // // Servo objects
 // Servo motor;
@@ -46,6 +49,15 @@
 // SPIClass *vspi = new SPIClass(VSPI);
 // const uint64_t pipeAddress = 0xF0F0F0F0D2LL;
 // const uint8_t payloadSize = sizeof(Packet);
+
+// atomic<bool> batteryFlag(0);
+
+// volatile bool timerMotors = false;
+// hw_timer_t *timer = NULL;
+
+// void IRAM_ATTR onTimer() {
+//   timerMotors = true;
+// }
 
 // void setup() {
 
@@ -163,7 +175,7 @@
 
 //     if (!radio.isChipConnected()) {
 //         resetChip();
-//         motor.write(1000);
+//         motor.write(1500);
 
 //     }
 // }
