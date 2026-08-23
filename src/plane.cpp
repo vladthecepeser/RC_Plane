@@ -17,15 +17,15 @@ Servo rightWing;
 #define MY_MISO 22
 #define MY_MOSI 21
 #define MY_SCK 19
-#define MY_CSN 18
-#define MY_CE 4
+#define MY_CSN 4
+#define MY_CE 18
 
 //Servo Pins
 const int motorPin = 25;
-const int rightWingPin = 26;
-const int leftWingPin = 27;
+const int rightWingPin = 27;
+const int leftWingPin = 14;
 
- const int lights = 14;
+const int lights = 23;
 
 struct Packet {
     uint16_t rightHorizontal;
