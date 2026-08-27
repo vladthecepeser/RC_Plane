@@ -60,10 +60,10 @@ void vLED(void *pvParameters)
 
     for (;;)
     {
-        vTaskDelayUntil(&lastWake, pdMS_TO_TICKS(750));
+        vTaskDelayUntil(&lastWake, pdMS_TO_TICKS(1450));
 
         digitalWrite(lights, HIGH);
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(50));
         digitalWrite(lights, LOW);
     }
 }
@@ -141,7 +141,7 @@ void loop() {
             packet.rightHorizontal = map(packet.rightHorizontal, 0, 3900, 0, 4095);
             packet.rightVertical = map(packet.rightVertical, 0, 3900, 0, 4095); 
             packet.leftHorizontal = map(packet.leftHorizontal, 0, 4095, 4095, 0);
-            packet.leftVertical = map(packet.leftVertical, 0, 3900, 4095, 0);
+            packet.leftVertical = map(packet.leftVertical, 0, 3900, 1500, 1000);
 
             ElevonMix elevonMix = findElevon({packet.rightHorizontal, packet.rightVertical});
 
